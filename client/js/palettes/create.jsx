@@ -6,6 +6,7 @@ var ColorDisplay = require('./color-display');
 var PaletteData = require('./palette-data');
 var RelativityColorDisplay = require('./relativity-color-display');
 var RelativeColorChooser = require('./relative-color/chooser');
+var PaletteDisplay = require('./palette-display');
 
 var App = React.createClass({
   componentWillMount: function () {
@@ -17,16 +18,11 @@ var App = React.createClass({
       <div>
         <div className="app-body">
           <div>
-            <RelativityColorDisplay palette={this._palette} color={this._color} />
+            <PaletteDisplay palette={this._palette} color={this._color} />
           </div>
           <div className="col1 colorpicker-box-container"> 
             <div className="colorpicker-container col1">
-              <div className="col1-2 pad-sm">
-                <ColorPickerGl color={this._color}/>
-              </div>
-              <div className="col1-2 pad-sm">
-                <ColorDisplay color={this._color} palette={this._palette}/>
-              </div>
+              <ColorPickerGl color={this._color}/>
             </div>
           </div>
         </div>

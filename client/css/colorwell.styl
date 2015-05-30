@@ -9,3 +9,49 @@ $colorwell_border = #BFBDBD
 
 .colorwell-text
   border-top: 1px solid $colorwell_border
+
+.colorwell-vertical
+  height: 100%
+  position: absolute
+
+.colorwell-hex
+  text-align: center
+  padding-top: 5px
+  &.light-text
+    color: rgba(255,255,255, 0.8)
+  &.dark-text
+    color: rgba(15,15,15, 0.8)
+
+.delete-item
+  padding: 10px
+  background-color: rgba(0,0,0,0.1)
+  position: absolute
+  top: 0
+  left: 0
+  &:hover
+    color: rgba(255,0,0,0.5)
+    background-color: #fff
+  &.light-text
+    background-color: rgba(255,255,255, 0.1)
+    color: rgba(255, 255, 255, 0.8)
+    &:hover
+      color: rgba(255, 255, 255, 1)
+
+.button 
+  cursor: pointer
+
+.add-item
+  padding: 10px
+  background-color: rgba(0,0,0,0.1)
+  position: absolute
+  top: 0
+  right: 0
+  &:hover
+    color: rgba(0,75,0,0.5)
+    background-color: #fff
+  &.light-text
+    background-color: rgba(255,255,255, 0.1)
+    color: rgba(255, 255, 255, 0.8)
+    &:hover
+      color: rgba(255, 255, 255, 1)
+    

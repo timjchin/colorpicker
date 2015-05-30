@@ -26,6 +26,9 @@ var PaletteData = Base.extend({
   getLength: function () {
     return this._colors.length;
   },
+  getColorAt: function (i) {
+    return this._colors[i];
+  },
   getStringAt: function (i) {
     return this._colorStrings[i];
   },
@@ -44,8 +47,18 @@ var PaletteData = Base.extend({
   },
   add: function (obj) {
     this._colors.push(obj);
+    this.emit('change');
   },
-  remove: function () {
+  insert: function (i, obj) {
+    this._colors.splice(i, 0, obj);
+    this.emit('change');
+  },
+  removeAt: function (i) {
+    if (this._colors.length === 1) return;
+    this._colors.splice(i, 1);
+    this.emit('change');
+  },
+  remove: function (obj) {
     var index = this._colors.indexOf(obj);
     if (index >= 0) {
       this._colors.splice(index, 1);

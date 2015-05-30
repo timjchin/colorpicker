@@ -16,7 +16,8 @@ var ColorPickerGl = React.createClass({
   },
   getDefaultProps () {
     return {
-      color: new ColorpickerData()
+      color: new ColorpickerData(),
+      barHeight: 40
     };
   },
   componentDidMount () {
@@ -148,7 +149,7 @@ var ColorPickerGl = React.createClass({
   },
   render () {
     var barStyle = {
-      height: 30
+      height: this.props.barHeight
     };
 
     var colorPicker;

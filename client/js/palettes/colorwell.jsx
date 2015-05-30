@@ -31,7 +31,7 @@ var Colorwell = React.createClass({
     }
 
     return (
-      <div className="colorwell-container">
+      <div className="colorwell-container" onClick={this.props.onClick ? this.props.onClick : undefined}>
         <div className="colorwell-color" style={bgStyle} />
         <h5 className="colorwell-text pad0">
           {text}
