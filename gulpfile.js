@@ -3,8 +3,9 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var livereload = require('gulp-livereload');
-//var browserifyShim = require('browserify-shim');
-var reload = browserSync.reload;
+var bump = require('gulp-bump');
+var moment = require('moment');
+
 var stylus = require('gulp-stylus');
 var gulpWebpack = require('gulp-webpack');
 var webpack = require('webpack');
@@ -12,6 +13,11 @@ var path = require('path');
 var connect = require('gulp-connect');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var del = require('del');
+
+var git = require('gulp-git'),
+    bump = require('gulp-bump'),
+    filter = require('gulp-filter'),
+    tag_version = require('gulp-tag-version');
 
 gulp.task('scripts', function () {
   return gulp.src('./client/js/')
@@ -113,6 +119,15 @@ gulp.task('css', function () {
     .pipe(livereload());
 });
 
+gulp.task('bump', function(){
+  return gulp.src('./package.json')
+      .pipe(bump({type: 'patch'}))
+      .pipe(gulp.dest('./'))
+      .pipe(git.commit('deploy on: ' + moment().format('mm/dd/yy hh:mm a')))
+      .pipe(filter('package.json'))
+      .pipe(tag_version());
+});
+
 gulp.task('css:min', function () { 
   gulp.src('./client/css/index.styl')
     .pipe(stylus({compress: true}))
@@ -122,5 +137,5 @@ gulp.task('css:min', function () {
 
 
 gulp.task('build', ['clean:build', 'scripts:min', 'css:min']);
-
+gulp.task('deploy', ['bump', 'clean:build', 'scripts:min', 'css:min']);
 gulp.task('default', ['scripts', 'css', 'serve', 'connect']);
