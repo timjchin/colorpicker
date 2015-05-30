@@ -123,7 +123,7 @@ gulp.task('bump', function(){
   return gulp.src('./package.json')
       .pipe(bump({type: 'patch'}))
       .pipe(gulp.dest('./'))
-      .pipe(git.commit('deploy on: ' + moment().format('mm/dd/yy hh:mm a')))
+      .pipe(git.commit('deploy at: ' + moment().format('M/D/YY h:mm a')))
       .pipe(filter('package.json'))
       .pipe(tag_version());
 });
