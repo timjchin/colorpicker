@@ -4,6 +4,7 @@ var HorizontalHue = require('./horizontal-hue');
 var ColorpickerData = require('./colorpicker-data');
 var ClickDownListener = require('./clickdown-listener');
 var Color = require('color');
+var Utils = require('animator3d/Utils');
 
 var _scratchColor = new Color();
 var ColorPickerGl = React.createClass({
@@ -20,6 +21,7 @@ var ColorPickerGl = React.createClass({
   },
   componentDidMount () {
     var self = this;
+    this._hsl = this.props.color.getHSL();
     if (this.state.pickerVisible) {
       this.buildGl();
     }
@@ -44,18 +46,6 @@ var ColorPickerGl = React.createClass({
     this.props.color.off('change', this._onColorChange);
   },
   _onColorChange (e) {
-    // hue
-    var color = _scratchColor;
-    color.setValues('rgb', e);
-    color.saturate(100);
-    var colorArray = color.rgbArray();
-    colorArray[0] /= 255;
-    colorArray[1] /= 255;
-    colorArray[2] /= 255;
-    this._hue.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
-    this._sat.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
-    this._lightness.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
-
     // sat
     var s = this.props.color.saturation() / 100;
     this._hue.setSaturation(s);
@@ -66,14 +56,26 @@ var ColorPickerGl = React.createClass({
     this._hue.setLightness(l);
     this._sat.setLightness(l);
 
-    if (!this._hue.isClickDown() && !this._sat.isClickDown() && !this._lightness.isClickDown()) {
-      console.log('setting');
-      var h = color.hue() / 360;
-      this._hue.setSelectorPosFromPercent(h);
-      this._hue.setHueValue(h);
-      this._sat.setSelectorPosFromPercent(s);
-      this._lightness.setSaturation(l);
+    // hue
+    var color = _scratchColor;
+    var h = this.props.color.hue();
+    
+    if (h !== this._hsl[0]) {
+      color.setValues('rgb', e);
+      color.saturate(100);
+      color.lightness(50);
+      var colorArray = color.rgbArray().slice(0);
+      colorArray[0] /= 255;
+      colorArray[1] /= 255;
+      colorArray[2] /= 255;
+      this._hue.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
+      this._sat.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
+      this._lightness.setHueColor(colorArray[0], colorArray[1], colorArray[2]);
     }
+
+    this._hsl[0] = h;
+    this._hsl[1] = s * 100;
+    this._hsl[2] = l * 100;
   },
   buildGl () {
     var h = this.props.color.hue() / 360;
@@ -130,15 +132,10 @@ var ColorPickerGl = React.createClass({
     this.props.color.setLightness(color.lightness());
   },
   _readColorToColor (key, e) {
-    var x = e.offsetX, y = e.offsetY;
-    if (x > this[key]._size[0]) x = this[key]._size[0] - 1;
-    else if (x < 0) x = 1;
+    var x = Utils.clamp(e.offsetX, 5, this[key]._size[0] -1); 
+    var y = Utils.clamp(e.offsetY, 1, this[key]._size[1] -1);
 
-    if (y > this[key]._size[1]) y = this[key]._size[1] - 1;
-    else if (y < 0) y = 1;
-    console.log(x, y);
-
-    var colorsRead = this[key].readPixel(e.offsetX, this[key]._size[1] - e.offsetY);
+    var colorsRead = this[key].readPixel(x, this[key]._size[1] - y);
     return Color().rgb([colorsRead[0], colorsRead[1], colorsRead[2]]);
   },
   _setHueColors (color) {

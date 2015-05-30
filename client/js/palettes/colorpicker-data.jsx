@@ -50,6 +50,9 @@ var ColorModel = Base.extend({
     this._color.hsl([h, s, l]);
     this._notifyChange();
   },
+  getHSL: function (h, s, l) {
+    return this._color.hslArray().slice(0);
+  },
   getString: function () {
     return this._color.rgbaString();
   }
