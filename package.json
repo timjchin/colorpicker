@@ -1,0 +1,42 @@
+{
+  "name": "budgets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "devDependencies": {
+    "browser-sync": "^2.6.5",
+    "del": "^1.2.0",
+    "glslify-loader": "^1.0.2",
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-stylus": "^2.0.1",
+    "gulp-watch": "^4.2.4",
+    "gulp-webpack": "^1.4.0",
+    "json-loader": "^0.5.1",
+    "jsx-loader": "^0.13.1",
+    "load-grunt-tasks": "^3.1.0",
+    "mkdirp": "^0.5.0",
+    "raw-loader": "^0.5.1",
+    "react": "^0.13.1",
+    "react-hot-loader": "^1.2.4",
+    "style-loader": "^0.10.1",
+    "stylus-loader": "^1.1.0",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
+  },
+  "dependencies": {
+    "animator3d": "git+ssh://git@bitbucket.org/naturalist/animator3d.git",
+    "bluebird": "^2.9.25",
+    "color": "^0.8.0",
+    "gl-geometry": "^1.0.3",
+    "gl-now": "^1.4.0",
+    "react-router": "^0.13.3",
+    "reflux": "^0.2.7",
+    "three": "^0.71.0"
+  }
+}
