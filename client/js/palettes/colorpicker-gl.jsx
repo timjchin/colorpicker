@@ -77,6 +77,16 @@ var ColorPickerGl = React.createClass({
     this._hsl[0] = h;
     this._hsl[1] = s * 100;
     this._hsl[2] = l * 100;
+
+    // on color set, keep selectors in sync
+    if (!this._hue.isClickDown() && !this._sat.isClickDown() && !this._lightness.isClickDown()) {
+      var h = color.hue() / 360;
+      this._hue.setSelectorPosFromPercent(h);
+      this._hue.setHueValue(h);
+      this._sat.setSelectorPosFromPercent(s);
+      this._lightness.setSaturation(l);
+    }
+    
   },
   buildGl () {
     var h = this.props.color.hue() / 360;
