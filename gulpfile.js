@@ -13,6 +13,7 @@ var path = require('path');
 var connect = require('gulp-connect');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var del = require('del');
+var gzip = require('gulp-gzip');
 
 var git = require('gulp-git'),
     bump = require('gulp-bump'),
@@ -22,8 +23,8 @@ var git = require('gulp-git'),
 gulp.task('scripts', function () {
   return gulp.src('./client/js/')
     .pipe(gulpWebpack({
-        debug: true,
-        devtool: 'eval-source-map',
+        //debug: true,
+        //devtool: 'inline-source-map',
         entry: {
             index: "./client/js/index.jsx",
         },
@@ -89,13 +90,30 @@ gulp.task('scripts:min', function () {
         new webpack.optimize.AggressiveMergingPlugin()
     ],
   }))
+  .pipe(gzip({append: false}))
   .pipe(gulp.dest('./static/js'))
   .pipe(livereload())
 });
 
-gulp.task('connect', function () { 
+gulp.task('connect', function () {
   connect.server({ 
     root: 'static'
+  });
+});
+
+gulp.task('connect:build', function () { 
+  connect.server({ 
+    root: 'static',
+    middleware: function() {
+      return [
+        function (req, res, next) { 
+          if (/\.js$/.test(req.url)) {
+            res.setHeader('Content-Encoding', 'gzip');
+          }
+          next();
+        }
+      ];
+    }
   });
 });
 gulp.task('clean:build', function (cb) {
@@ -134,6 +152,7 @@ gulp.task('css:min', function () {
     .pipe(gulp.dest('./static/css'))
     .pipe(livereload());
 });
+
 
 
 gulp.task('build', ['clean:build', 'scripts:min', 'css:min']);

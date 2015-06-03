@@ -9,6 +9,7 @@
   "author": "",
   "devDependencies": {
     "browser-sync": "^2.6.5",
+    "connect-gzip": "^0.1.6",
     "del": "^1.2.0",
     "glslify-loader": "^1.0.2",
     "gulp": "^3.8.11",
@@ -16,6 +17,7 @@
     "gulp-connect": "^2.2.0",
     "gulp-filter": "^2.0.2",
     "gulp-git": "^1.2.4",
+    "gulp-gzip": "^1.1.0",
     "gulp-livereload": "^3.8.0",
     "gulp-stylus": "^2.0.1",
     "gulp-tag-version": "^1.2.1",
