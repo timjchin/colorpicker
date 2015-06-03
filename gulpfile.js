@@ -107,7 +107,7 @@ gulp.task('connect:build', function () {
     middleware: function() {
       return [
         function (req, res, next) { 
-          if (/\.js$/.test(req.url)) {
+          if (/\.js$/.test(req.url) || /\ex.css$/.test(req.url)) {
             res.setHeader('Content-Encoding', 'gzip');
           }
           next();
@@ -116,6 +116,7 @@ gulp.task('connect:build', function () {
     }
   });
 });
+
 gulp.task('clean:build', function (cb) {
   del([
     'static/js/*',
@@ -149,6 +150,7 @@ gulp.task('bump', function(){
 gulp.task('css:min', function () { 
   gulp.src('./client/css/index.styl')
     .pipe(stylus({compress: true}))
+    .pipe(gzip({append: false}))
     .pipe(gulp.dest('./static/css'))
     .pipe(livereload());
 });
